@@ -18,6 +18,7 @@ final int START_BUTTON_W = 144;
 final int START_BUTTON_H = 60;
 final int START_BUTTON_X = 248;
 final int START_BUTTON_Y = 360;
+final int SOIL_SIZE = 80;
 
 PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered;
 PImage bg, soil8x24;
@@ -27,21 +28,21 @@ PImage life;
 PImage groundhogDown,groundhogIdle,groundhogLeft,groundhogRight;
 
 // For debug function; DO NOT edit or remove this!
-int playerHealth = 0;
+int playerHealth = 2;
 float cameraOffsetY = 0;
 boolean debugMode = false;
 
 void setup() {
-  size(640, 480, P2D);
+	size(640, 480, P2D);
   frameRate(60);
-  // Enter your setup code here (please put loadImage() here or your game will lag like crazy)
-  bg = loadImage("img/bg.jpg");
-  title = loadImage("img/title.jpg");
-  gameover = loadImage("img/gameover.jpg");
-  startNormal = loadImage("img/startNormal.png");
-  startHovered = loadImage("img/startHovered.png");
-  restartNormal = loadImage("img/restartNormal.png");
-  restartHovered = loadImage("img/restartHovered.png");
+	// Enter your setup code here (please put loadImage() here or your game will lag like crazy)
+	bg = loadImage("img/bg.jpg");
+	title = loadImage("img/title.jpg");
+	gameover = loadImage("img/gameover.jpg");
+	startNormal = loadImage("img/startNormal.png");
+	startHovered = loadImage("img/startHovered.png");
+	restartNormal = loadImage("img/restartNormal.png");
+	restartHovered = loadImage("img/restartHovered.png");
   soil0 = loadImage("img/soil0.png");
   soil1 = loadImage("img/soil1.png");
   soil2 = loadImage("img/soil2.png");
@@ -71,33 +72,33 @@ void draw() {
     /* ------ End of Debug Function ------ */
 
     
-  switch (gameState) {
+	switch (gameState) {
 
-    case GAME_START: // Start Screen
-    image(title, 0, 0);
+		case GAME_START: // Start Screen
+		image(title, 0, 0);
 
-    if(START_BUTTON_X + START_BUTTON_W > mouseX
-      && START_BUTTON_X < mouseX
-      && START_BUTTON_Y + START_BUTTON_H > mouseY
-      && START_BUTTON_Y < mouseY) {
+		if(START_BUTTON_X + START_BUTTON_W > mouseX
+	    && START_BUTTON_X < mouseX
+	    && START_BUTTON_Y + START_BUTTON_H > mouseY
+	    && START_BUTTON_Y < mouseY) {
 
-      image(startHovered, START_BUTTON_X, START_BUTTON_Y);
-      if(mousePressed){
-        gameState = GAME_RUN;
-        mousePressed = false;
-      }
+			image(startHovered, START_BUTTON_X, START_BUTTON_Y);
+			if(mousePressed){
+				gameState = GAME_RUN;
+				mousePressed = false;
+			}
 
-    }else{
+		}else{
 
-      image(startNormal, START_BUTTON_X, START_BUTTON_Y);
+			image(startNormal, START_BUTTON_X, START_BUTTON_Y);
 
-    }
-    break;
+		}
+		break;
 
-    case GAME_RUN: // In-Game
+		case GAME_RUN: // In-Game
 
     pushMatrix();
-    if(cameraOffsetY>-1440){    //cameraOffsetY
+    if(cameraOffsetY>-1600){    //cameraOffsetY
       
       switch(walk){
         case GO_DOWN:
@@ -125,7 +126,7 @@ void draw() {
     }
     
     else{
-      cameraOffsetY = -1440;
+      cameraOffsetY = -1600;
       switch(walk){
         case GO_DOWN:
           if(frame<15){
@@ -151,21 +152,21 @@ void draw() {
       }
     }
     
-    // Background
-    image(bg, 0, 0);
+		// Background
+		image(bg, 0, 0);
 
-    // Sun
-      stroke(255,255,0);
-      strokeWeight(5);
-      fill(253,184,19);
-      ellipse(590,50,120,120);
+		// Sun
+	    stroke(255,255,0);
+	    strokeWeight(5);
+	    fill(253,184,19);
+	    ellipse(590,50,120,120);
 
-    // Grass
-    fill(124, 204, 25);
-    noStroke();
-    rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
+		// Grass
+		fill(124, 204, 25);
+		noStroke();
+		rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
-    // Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
+		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
     
     //soil0
     for(int i=0; i<=8; i++){  
@@ -177,44 +178,6 @@ void draw() {
       
         if(j<24){
           image(soil5,soilX,160+soilY);
-          for(int b = 0; b<8;b++){
-            for(int a = 0; a<16;a++){
-              int stoneA = 0;
-              int floor = 160+80*16;
-              
-              if(a %3==0){
-                stoneA = 80+80*a;
-              }
-              else{
-                stoneA = stoneA+80*a;
-              }
-    
-              if(b==1) stoneA -=80;
-              if(b==2||b==5) stoneA -=160;
-              if(b==3||b==6) stoneA -=240;
-              if(b==4||b==7) stoneA -=320;
-              
-              floor = floor+80*b;
-              image(stone1,stoneA,floor);
-            }
-            
-            for(int a = 0; a<16;a++){
-              int stoneB = 160;
-              int floor = 160+80*16;
-              
-              if(a%3==0){
-                stoneB = stoneB+80*a;
-              }
-              
-              if(b==1) stoneB -=80;
-              if(b==2||b==5) stoneB -=160;
-              if(b==3||b==6) stoneB -=240;
-              if(b==4||b==7) stoneB -=320;
-              
-              floor = floor+80*b;
-              image(stone2,stoneB,floor);
-            }
-          }
          }
       
         if(j<20){
@@ -223,26 +186,7 @@ void draw() {
       
         if(j<16 && j>8){
         image(soil3,soilX,160+soilY);
-        
-          for(int b=1;b<9;b+=1){
-            for(int a=0; a<8; a=a+2){
-            int stone = 80;
-            int floor = 800;
-  
-            floor = floor+80*b;
-            
-              if(b==2 || b==3 || b==6 || b==7 || b == 9){
-               stone = stone + 160*a-160; 
-              }
-              
-              else{
-              stone = stone +160*a;
-              }
-            image(stone1,stone,floor-80);
-            image(stone1,stone+80,floor-80);
-            }
-          
-          }
+
         }
       
         if(j<12){
@@ -260,13 +204,53 @@ void draw() {
       }
     }
     
-    // Player
+    // row 9~16
+    pushMatrix();
+    translate(0,2*SOIL_SIZE);
+    for(int i=0;i<9;i++){
+        for(int j=8;j<16;j++){
+          if(i%4==0){
+            if(j%4>0 && j%4<3){
+          image(stone1,i* SOIL_SIZE,j* SOIL_SIZE);
+          image(stone1,(i+3)* SOIL_SIZE,j* SOIL_SIZE);
+          } 
+          else{
+          image(stone1,(i+1)* SOIL_SIZE,j* SOIL_SIZE);
+          image(stone1,(i+2)* SOIL_SIZE,j* SOIL_SIZE);
+          }
+          }
+      }
+    }
+    popMatrix();
+    //row 17~24
+    
+    pushMatrix();
+    translate(0,18*SOIL_SIZE);
+    for(int j=0;j<16;j++){
+      for(int i=0;i<8;i++){
+        int stoneX = width*2-SOIL_SIZE;
+        stoneX = stoneX-SOIL_SIZE*j;
+        if(j%3>0){
+          image(stone1,stoneX-SOIL_SIZE*i,i*SOIL_SIZE);
+        }
+        if(j%3==2){
+          image(stone2,stoneX-SOIL_SIZE*i,i*SOIL_SIZE);
+        }
+      }
+    }
+    popMatrix();
+    
+		// Player
         
         if(frame<=15){
           frame++;
           switch(walk){
             case GO_DOWN:
+              if(walkY <1920){
               walkY= walkY + round(80/15);
+              }
+              else{walkY=1920;
+            }
             break;
             
             case GO_LEFT:
@@ -316,38 +300,38 @@ void draw() {
         }
         popMatrix(); //cameraOffsetY
         
-    // Health UI
+		// Health UI
     
-    for(int i = playerHealth-1; i>=0;i--){
+    for(int i = 0; i<playerHealth; i++){
       int lifeX = 10;
       lifeX = lifeX+i*70;
       image(life,lifeX,10);
     }
     
-    break;
+		break;
 
-    case GAME_OVER: // Gameover Screen
-    image(gameover, 0, 0);
-    
-    if(START_BUTTON_X + START_BUTTON_W > mouseX
-      && START_BUTTON_X < mouseX
-      && START_BUTTON_Y + START_BUTTON_H > mouseY
-      && START_BUTTON_Y < mouseY) {
+		case GAME_OVER: // Gameover Screen
+		image(gameover, 0, 0);
+		
+		if(START_BUTTON_X + START_BUTTON_W > mouseX
+	    && START_BUTTON_X < mouseX
+	    && START_BUTTON_Y + START_BUTTON_H > mouseY
+	    && START_BUTTON_Y < mouseY) {
 
-      image(restartHovered, START_BUTTON_X, START_BUTTON_Y);
-      if(mousePressed){
-        gameState = GAME_RUN;
-        mousePressed = false;
-        // Remember to initialize the game here!
-      }
-    }else{
+			image(restartHovered, START_BUTTON_X, START_BUTTON_Y);
+			if(mousePressed){
+				gameState = GAME_RUN;
+				mousePressed = false;
+				// Remember to initialize the game here!
+			}
+		}else{
 
-      image(restartNormal, START_BUTTON_X, START_BUTTON_Y);
+			image(restartNormal, START_BUTTON_X, START_BUTTON_Y);
 
-    }
-    break;
-    
-  }
+		}
+		break;
+		
+	}
 
     // DO NOT REMOVE OR EDIT THE FOLLOWING 3 LINES
     if (debugMode) {
@@ -356,9 +340,9 @@ void draw() {
 }
 
 void keyPressed(){
-  // Add your moving input code here
+	// Add your moving input code here
 
-  // DO NOT REMOVE OR EDIT THE FOLLOWING SWITCH/CASES
+	// DO NOT REMOVE OR EDIT THE FOLLOWING SWITCH/CASES
     switch(key){
       case 'w':
       debugMode = true;
